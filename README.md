@@ -117,6 +117,13 @@ autoserverpack-1.21.1/
 
 ## 3. 自定义更新范围
 
+配置只有一个地方：服务端 `config/autopack.json` 的 `scopes`。两种 `kind`：
+
+- `mods`：只收 `.jar`，读元数据、按 modId 做差异、可走 Modrinth 镜像
+- `files`：任意文件，全部自托管到 Pages（不查镜像）
+
+`source` 相对服务器目录（也可写绝对路径），`target` 是**客户端游戏目录里的相对路径**。
+
 ```json
 "scopes": [
   { "id": "mods", "kind": "mods", "source": "mods", "target": "mods", "role": "required" },
@@ -127,23 +134,67 @@ autoserverpack-1.21.1/
   { "id": "kubejs", "kind": "files", "source": "kubejs", "target": "kubejs", "role": "content",
     "exclude": ["**/cache/**"] },
 
-  { "id": "config", "kind": "files", "source": "config", "target": "config", "role": "content",
-    "enabled": false, "include": ["config/xxx/**"] }
+  { "id": "client-config", "kind": "files", "source": "clientpack/config", "target": "config",
+    "role": "content", "enabled": false, "include": ["xxx-*.toml"] }
 ]
 ```
 
-- `source`：相对服务器目录或绝对路径；`target`：**客户端游戏目录里的相对路径**
-- `kind: mods` 只收 `.jar` 并读元数据；`kind: files` 收任意文件
 - `include` / `exclude` 支持 `*`、`**`、`?`，`exclude` 优先
-- 单个 scope 可关镜像：`"mirror": { "enabled": false }`（大文件走自托管）
+- 单个 scope 可关镜像：`"mirror": { "enabled": false }`（大文件一律自托管）
+- 两个 scope 的 `target` 撞了会直接报错（同名文件），用 include/exclude 或改 target
 
-### 必须安装的 mod
+### 3.1 客户端专属 mod
+
+服务器上放客户端 mod 的目录（新建 `client-mods/`，或用现成的 `mods_disabled_client/`），然后：
+
+```json
+{
+  "id": "client-mods",
+  "kind": "mods",
+  "source": "mods_disabled_client",
+  "target": "mods",
+  "role": "optional",
+  "enabled": true
+}
+```
+
+- 这些 jar 会发到客户端 `mods/`，服务端不加载
+- `role` 只影响客户端展示分组：`required` / `optional` / `content`
+- 客户端按 **modId** 判断：同一 mod 的旧版本会被替换，清单外的自装 mod 不动
+- 想只发其中几个，用 `include`：`["*sodium*", "iris-*", "emi-*"]`
+
+### 3.2 自定义文件夹
+
+目录结构原样映射：服务器 `kubejs/server_scripts/main.js` → 客户端 `kubejs/server_scripts/main.js`。
+
+```json
+{ "id": "kubejs",        "kind": "files", "source": "kubejs",        "target": "kubejs",        "role": "content" },
+{ "id": "resourcepacks", "kind": "files", "source": "resourcepacks", "target": "resourcepacks", "role": "content", "enabled": false },
+{ "id": "shaderpacks",   "kind": "files", "source": "shaderpacks",   "target": "shaderpacks",   "role": "content", "enabled": false },
+{ "id": "custom",        "kind": "files", "source": "my-extra-dir",  "target": "my-extra-dir",  "role": "content",
+  "include": ["**/*.json"], "exclude": ["**/tmp/**"] }
+```
+
+注意：
+
+- 大文件（>24MiB）自动切片上传，客户端合并后校验 SHA-256，不用手动处理
+- Pages 免费版 **20,000 文件 / 单文件 25MiB**：`config`、`logs` 这类目录必须用 `include` 限死，别整目录发
+- **`config` 会覆盖玩家个人设置**：只推需要统一的文件（`include` 精确到文件），或放到 `clientpack/config` 再 `target: "config"`；客户端替换前会备份到 `.autopack/backup/<时间戳>/`
+- 暂不启用就把 `enabled` 设成 `false`
+
+### 3.3 必须安装的 mod
 
 ```json
 "requiredModIds": ["sodium", "iris"]
 ```
 
 构建时校验这些 modId 是否真的在范围内（不在就报错，避免“以为要求了其实没发”）；客户端更新后会扫描本地 modId，缺哪个就标红提示。
+
+### 3.4 改完怎么生效
+
+1. 改 `config/autopack.json`
+2. 让服务端重跑构建：**重启服务器**，或在服务器目录建空文件 `autopack/trigger`（5 秒内自动触发，跑完自删）
+3. 客户端下次「检查更新」拿到新清单
 
 ### 客户端“多余 mod 不删”的规则
 
