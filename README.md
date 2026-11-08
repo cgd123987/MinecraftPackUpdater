@@ -1,4 +1,4 @@
-﻿# AutoPack · 整合包自动更新装置
+# AutoPack · 整合包自动更新装置
 
 Minecraft **1.21.1 / NeoForge** 整合包自动更新：
 
@@ -262,3 +262,29 @@ node --test test/*.test.mjs     # 单元 + 端到端（本地静态服务器模�
 覆盖：TOML/ZIP 解析、镜像 URL 映射、glob、构建清单、首次同步、幂等、自装 mod 保留、同 modId 替换、增量更新、分片合并、requiredModIds、路径冲突。
 
 协议细节见 [docs/protocol.md](docs/protocol.md)。
+
+---
+
+## 11. 发布到 GitHub
+
+仓库已经初始化并提交（单文件 exe 87MB，jar 77KB，都在根目录）。首次推送：
+
+```powershell
+git remote add origin https://github.com/<你的用户名>/AutoPack.git
+git push -u origin main
+```
+
+注意事项：
+
+- GitHub **单文件硬上限 100MB**：`AutoPackClient.exe` 87.3MB、`AutoPackBuilder.exe` 87.3MB，刚好能推，但速度取决于上行带宽。
+- 不想把二进制放进 git 历史，可以改用 **Git LFS**：
+
+  ```powershell
+  git lfs install
+  git lfs track "*.exe" "*.jar"
+  git add .gitattributes
+  git commit -m "chore: 用 LFS 管理二进制"
+  ```
+
+- 也可以只在 GitHub Releases 上传 exe/jar，仓库里放 `.gitignore` 忽略它们（把 `*.exe`、`*.jar` 加进忽略列表，并删除已跟踪的）。
+- 打包分发包（含源码与二进制，不含 `.git`）：`git archive --format=zip HEAD -o AutoPack-0.1.0.zip`。
