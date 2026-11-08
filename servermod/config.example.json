@@ -1,0 +1,28 @@
+{
+  "enabled": true,
+  "pack": { "id": "yunmengyuan", "name": "云梦缘 2.0" },
+  "game": { "minecraft": "1.21.1", "loader": "neoforge", "loaderVersion": "21.1.265" },
+
+  "paths": { "outDir": "autopack/out", "stateDir": "autopack/state" },
+
+  "scopes": [
+    { "id": "mods", "kind": "mods", "source": "mods", "target": "mods", "role": "required", "enabled": true },
+    { "id": "client-mods", "kind": "mods", "source": "client-mods", "target": "mods", "role": "optional", "enabled": false },
+    { "id": "kubejs", "kind": "files", "source": "kubejs", "target": "kubejs", "role": "content", "enabled": true }
+  ],
+
+  "requiredModIds": ["sodium"],
+
+  "mirror": { "enabled": true, "baseUrl": "https://mod.mcimirror.top", "userAgent": "AutoPackUpdater/0.1" },
+
+  "pages": {
+    "project": "yunmengyuan-pack",
+    "branch": "main",
+    "apiToken": "",
+    "baseUrl": "",
+    "autoBuild": true,
+    "autoPublish": true,
+    "retainVersions": 1,
+    "intervalMinutes": 0
+  }
+}

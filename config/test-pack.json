@@ -1,0 +1,25 @@
+{
+  "pack": { "id": "testpack", "name": "测试整合包" },
+  "game": { "minecraft": "1.21.1", "loader": "neoforge", "loaderVersion": "21.1.265" },
+  "paths": { "serverDir": "D:/dd/云梦缘服务端", "outDir": "dist-test", "stateDir": ".autopack-test" },
+  "scopes": [
+    {
+      "id": "mods", "kind": "mods", "source": "mods", "target": "mods", "role": "required", "enabled": true,
+      "include": ["ae2ct-1.0.1.jar", "alltheleaks-*.jar"]
+    },
+    {
+      "id": "client-mods", "kind": "mods",
+      "source": "D:/dd/云梦缘/versions/2分炸掉/mods", "target": "mods", "role": "optional", "enabled": true,
+      "include": ["*sodium-neoforge-*.jar"]
+    },
+    { "id": "kubejs", "kind": "files", "source": "kubejs", "target": "kubejs", "role": "content", "enabled": true },
+    { "id": "extras", "kind": "files", "source": "D:/dd/updater/autoserverpack-1.21.1/testdata/extras", "target": "extras", "role": "content", "enabled": true }
+  ],
+  "requiredModIds": ["sodium"],
+  "mirror": { "enabled": true, "baseUrl": "https://mod.mcimirror.top", "userAgent": "AutoPackUpdater/0.1" },
+  "pages": {
+    "project": "testpack", "branch": "main", "baseUrl": "http://127.0.0.1:8788", "retainVersions": 0,
+    "maxAssetBytes": 1048576, "chunkBytes": 524288
+  },
+  "concurrency": 4
+}

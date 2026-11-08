@@ -1,0 +1,74 @@
+{
+  "pack": {
+    "id": "yunmengyuan",
+    "name": "云梦缘 2.0",
+    "version": null,
+    "notes": ""
+  },
+  "game": {
+    "minecraft": "1.21.1",
+    "loader": "neoforge",
+    "loaderVersion": "21.1.265",
+    "java": 21
+  },
+  "paths": {
+    "serverDir": "D:/dd/云梦缘服务端",
+    "outDir": "dist",
+    "stateDir": ".autopack"
+  },
+  "scopes": [
+    {
+      "id": "mods",
+      "kind": "mods",
+      "source": "mods",
+      "target": "mods",
+      "role": "required",
+      "enabled": true,
+      "include": [
+        "ae2ct-1.0.1.jar",
+        "alltheleaks-*.jar",
+        "anvilcore-*.jar"
+      ]
+    },
+    {
+      "id": "client-mods",
+      "kind": "mods",
+      "source": "D:/dd/云梦缘/versions/2分炸掉/mods",
+      "target": "mods",
+      "role": "optional",
+      "enabled": true,
+      "include": [
+        "*sodium-neoforge-*.jar",
+        "iris-neoforge-*.jar",
+        "emi-1.1.24*.jar"
+      ]
+    },
+    {
+      "id": "kubejs",
+      "kind": "files",
+      "source": "kubejs",
+      "target": "kubejs",
+      "role": "content",
+      "enabled": true
+    }
+  ],
+  "requiredModIds": ["sodium"],
+  "policy": {
+    "keepUnknownMods": true,
+    "deleteOrphans": false,
+    "backupBeforeReplace": true
+  },
+  "mirror": {
+    "enabled": true,
+    "baseUrl": "https://mod.mcimirror.top",
+    "userAgent": "AutoPackUpdater/0.1"
+  },
+  "pages": {
+    "project": "yunmengyuan-pack",
+    "accountId": "",
+    "branch": "main",
+    "baseUrl": "",
+    "retainVersions": 1
+  },
+  "concurrency": 4
+}

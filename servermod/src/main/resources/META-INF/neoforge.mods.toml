@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+issueTrackerURL = "https://example.invalid/autopack/issues"
+
+[[mods]]
+modId = "autopack"
+version = "1.0.0"
+displayName = "AutoPack Server Publisher"
+authors = "AutoPack"
+description = '''
+服务端整合包自动发布器：扫描 mods/ 与自定义目录，读取每个 mod jar 的版权信息，
+把下载链接换成 MCIM 国内镜像，再通过 wrangler 发布到 Cloudflare Pages。
+客户端配合 AutoPackClient.exe 游戏外更新。
+'''
+
+[[dependencies.autopack]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.190,)"
+ordering = "NONE"
+side = "SERVER"
+
+[[dependencies.autopack]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1]"
+ordering = "NONE"
+side = "SERVER"

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.autopack/
+.autopack-test/
+.build-exe/
+build-server/
+testgame/
+testjar/
+testserver/
+livecheck/
+shidaigame/
+speedtest/
+testdata/extras/
+*.log
+*.zip
+.tmp-*
+autopack.json

@@ -1,0 +1,5 @@
+{
+  "_说明": "把本文件改名为 autopack.json 放在 AutoPackClient.exe 旁边，玩家双击 exe 就能直接更新。",
+  "baseUrl": "https://yunmengyuan-pack.pages.dev",
+  "launcher": ""
+}

@@ -1,0 +1,22 @@
+{
+  "name": "autopack",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Minecraft 1.21.1 NeoForge 整合包自动更新装置：服务端生成清单并发布到 Cloudflare Pages，客户端 exe 游戏外更新",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node src/builder/cli.mjs build",
+    "publish": "node src/builder/cli.mjs publish",
+    "client": "node src/client/index.mjs",
+    "jar": "node tools/build-server-jar.mjs",
+    "exe": "node tools/build-exe.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "postject": "^1.0.0-alpha.6"
+  }
+}
